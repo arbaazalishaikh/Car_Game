@@ -63,7 +63,7 @@ function start() {
     for (let x = 0; x < 3; x++) {
         let enemyCar = document.createElement('div');
         enemyCar.setAttribute('class', 'enemy');
-        enemyCar.y = (x * 150);
+        enemyCar.y = ((x+1)*350)*-1;
         enemyCar.style.top = enemyCar.y + "px";
         enemyCar.style.background = "blue";
         enemyCar.style.left = Math.floor(Math.random() * 350) + "px";
