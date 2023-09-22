@@ -65,21 +65,37 @@ function start() {
         enemyCar.setAttribute('class', 'enemy');
         enemyCar.y = (x * 150);
         enemyCar.style.top = enemyCar.y + "px";
+        enemyCar.style.background = "blue";
+        enemyCar.style.left = Math.floor(Math.random() * 350) + "px";
         gameArea.appendChild(enemyCar);
 
     }
 }
 
 
-function moveLines(){
+function moveLines() {
     let lines = document.querySelectorAll('.lines');
 
-    lines.forEach(function(item){
+    lines.forEach(function (item) {
 
-        if(item.y >= 700){     // car jaise hi aage badhegi lines apne aap aate jaayegi
+        if (item.y >= 700) {     // car jaise hi aage badhegi lines apne aap aate jaayegi
             item.y -= 750;
         }
-        item.y +=  player.speed;
+        item.y += player.speed;
+        item.style.top = item.y + "px";
+    })
+}
+
+function moveEnemy() {
+    let enemy = document.querySelectorAll('.enemy');
+
+    enemy.forEach(function (item) {
+
+        if (item.y >= 700) {     // car jaise hi aage badhegi lines apne aap aate jaayegi
+            item.y -= 750;
+            item.style.left = Math.floor(Math.random() * 350) + "px";
+        }
+        item.y += player.speed;
         item.style.top = item.y + "px";
     })
 }
@@ -91,6 +107,7 @@ function gamePlay() {
     if (player.start) {
 
         moveLines();
+        moveEnemy();
         if (keys.ArrowUp && player.y > (road.top + 70)) { player.y -= player.speed }
         if (keys.ArrowDown && player.y < (road.bottom - 70)) { player.y += player.speed }
         if (keys.ArrowLeft && player.x > 0) { player.x -= player.speed }
