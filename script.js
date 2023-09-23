@@ -20,13 +20,13 @@ document.addEventListener('keyup', keyUp);
 function keyDown(e) {
     e.preventDefault();
     keys[e.key] = true;
-    console.log(keys);
+    // console.log(keys);
 }
 
 function keyUp(e) {
     e.preventDefault();
     keys[e.key] = false;
-    console.log(keys);
+    // console.log(keys);
 }
 
 let player = { speed: 5 };
@@ -72,6 +72,13 @@ function start() {
     }
 }
 
+// a - represents apni car and b - represents enemy car
+function isCollide (a,b){
+    aRect = a.getBoundingClientRect();
+    bRect = b.getBoundingClientRect();
+
+    return !((aRect.bottom < bRect.top) || (aRect.top > bRect.bottom) || (aRect.left > bRect.right) || (aRect.right < bRect.left));
+}
 
 function moveLines() {
     let lines = document.querySelectorAll('.lines');
@@ -86,13 +93,17 @@ function moveLines() {
     })
 }
 
-function moveEnemy() {
+function moveEnemy(car) {
     let enemy = document.querySelectorAll('.enemy');
 
     enemy.forEach(function (item) {
 
-        if (item.y >= 700) {     // car jaise hi aage badhegi lines apne aap aate jaayegi
-            item.y -= 750;
+        if(isCollide(car,item)){
+            console.log("HIT");
+        }
+
+        if (item.y >= 750) {     // car jaise hi aage badhegi lines apne aap aate jaayegi
+            item.y = -300;
             item.style.left = Math.floor(Math.random() * 350) + "px";
         }
         item.y += player.speed;
@@ -100,14 +111,14 @@ function moveEnemy() {
     })
 }
 function gamePlay() {
-    console.log("Hey I am clicked");
+    // console.log("Hey I am clicked");
     let car = document.querySelector('.car');
     let road = gameArea.getBoundingClientRect(); // position bata rha hai gameArea ki (x,y,top,bottom,left,right)
 
     if (player.start) {
 
         moveLines();
-        moveEnemy();
+        moveEnemy(car);
         if (keys.ArrowUp && player.y > (road.top + 70)) { player.y -= player.speed }
         if (keys.ArrowDown && player.y < (road.bottom - 70)) { player.y += player.speed }
         if (keys.ArrowLeft && player.x > 0) { player.x -= player.speed }
