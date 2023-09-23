@@ -32,6 +32,8 @@ function keyUp(e) {
 let player = { speed: 5, score: 0 };
 startScreen.addEventListener('click', start);
 
+
+// jab user game start karega to yeh function chalega
 function start() {
 
     // gameArea.classList.remove('hide');
@@ -78,6 +80,7 @@ function start() {
     }
 }
 
+// car k uper random color generate hote milega
 function randomColor() {
     function c() {
         let hex = Math.floor(Math.random()*256).toString(16);
@@ -88,6 +91,7 @@ function randomColor() {
 }
 
 // a - represents apni car and b - represents enemy car
+// jab apni car enemy car se takrayegi to uske liye yeh function
 function isCollide(a, b) {
     aRect = a.getBoundingClientRect();
     bRect = b.getBoundingClientRect();
@@ -95,6 +99,8 @@ function isCollide(a, b) {
     return !((aRect.bottom < bRect.top) || (aRect.top > bRect.bottom) || (aRect.left > bRect.right) || (aRect.right < bRect.left));
 }
 
+
+// road ki jo white line hai usko generate krne k liye yeh function
 function moveLines() {
     let lines = document.querySelectorAll('.lines');
 
@@ -108,6 +114,7 @@ function moveLines() {
     })
 }
 
+// jab apni car enemy car se takrayegi to game over hojayega tab yeh endGame funciton chalega
 function endGame() {
     player.start = false;
     startScreen.classList.remove('hide');
@@ -115,6 +122,8 @@ function endGame() {
 
 }
 
+
+// enemy car random generate hogi iske liye yeh funtion
 function moveEnemy(car) {
     let enemy = document.querySelectorAll('.enemy');
 
@@ -133,6 +142,8 @@ function moveEnemy(car) {
         item.style.top = item.y + "px";
     })
 }
+
+// jab user game start karega tab yeh gamePlay function chalega
 function gamePlay() {
     // console.log("Hey I am clicked");
     let car = document.querySelector('.car');
