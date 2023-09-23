@@ -29,11 +29,18 @@ function keyUp(e) {
     // console.log(keys);
 }
 
-let player = { speed: 5 };
+let player = { speed: 5, score: 0 };
 startScreen.addEventListener('click', start);
 
 function start() {
+
+    // gameArea.classList.remove('hide');
+    startScreen.classList.add('hide');
+    gameArea.innerHTML = "";
+
     player.start = true;
+    player.score = 0;
+
     window.requestAnimationFrame(gamePlay);
 
     for (let x = 0; x < 6; x++) {
@@ -45,8 +52,7 @@ function start() {
 
     }
 
-    gameArea.classList.remove('hide');
-    startScreen.classList.add('hide');
+
 
     let car = document.createElement('div');
     car.setAttribute('class', 'car');
@@ -63,17 +69,26 @@ function start() {
     for (let x = 0; x < 3; x++) {
         let enemyCar = document.createElement('div');
         enemyCar.setAttribute('class', 'enemy');
-        enemyCar.y = ((x+1)*350)*-1;
+        enemyCar.y = ((x + 1) * 350) * -1;
         enemyCar.style.top = enemyCar.y + "px";
-        enemyCar.style.background = "blue";
+        enemyCar.style.backgroundColor = randomColor();
         enemyCar.style.left = Math.floor(Math.random() * 350) + "px";
         gameArea.appendChild(enemyCar);
 
     }
 }
 
+function randomColor() {
+    function c() {
+        let hex = Math.floor(Math.random()*256).toString(16);
+        return ("0" + String(hex)).substr(-2);
+
+    }
+    return "#" + c() + c() + c();
+}
+
 // a - represents apni car and b - represents enemy car
-function isCollide (a,b){
+function isCollide(a, b) {
     aRect = a.getBoundingClientRect();
     bRect = b.getBoundingClientRect();
 
@@ -93,13 +108,21 @@ function moveLines() {
     })
 }
 
+function endGame() {
+    player.start = false;
+    startScreen.classList.remove('hide');
+    startScreen.innerHTML = "Game Over <br> Your final score is " + player.score + "<br> Press here to restart the game"
+
+}
+
 function moveEnemy(car) {
     let enemy = document.querySelectorAll('.enemy');
 
     enemy.forEach(function (item) {
 
-        if(isCollide(car,item)){
+        if (isCollide(car, item)) {
             console.log("HIT");
+            endGame();
         }
 
         if (item.y >= 750) {     // car jaise hi aage badhegi lines apne aap aate jaayegi
@@ -126,7 +149,14 @@ function gamePlay() {
 
         car.style.top = player.y + "px";
         car.style.left = player.x + "px";
+
         window.requestAnimationFrame(gamePlay);
+        console.log(player.score++);
+
+        // diplaying score in game page
+        player.score++;
+        let ps = player.score - 2 ;
+        score.innerText = "Score:" + ps;
     }
 }
 
